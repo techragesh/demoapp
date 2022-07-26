@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: userservice
+swagger:
+  host:
+    url: localhost:8090
+    path:
+
+server:
+  port: 8090
