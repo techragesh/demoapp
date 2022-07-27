@@ -21,7 +21,7 @@ class UserServiceImpl: UserService {
     }
 
     override fun addUser(user: User): User {
-        user.id = Random.nextInt(0 until 9999999)
+        user.id =  Random.nextInt(0 until 9999999)
         userMap[user.id] = user
         return user
     }

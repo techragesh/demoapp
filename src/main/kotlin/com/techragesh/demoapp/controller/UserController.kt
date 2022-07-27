@@ -1,15 +1,18 @@
 package com.techragesh.demoapp.controller
 
+import com.techragesh.demoapp.model.Employee
 import com.techragesh.demoapp.model.User
+import com.techragesh.demoapp.model.response.EmployeeResponse
 import com.techragesh.demoapp.model.response.UserResponse
 import com.techragesh.demoapp.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.client.RestTemplate
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/users")
-class UserController(private val userService: UserService) {
+class UserController(private val userService: UserService, private val restTemplate: RestTemplate) {
 
     @GetMapping("/{id}")
     fun getUserById(@PathVariable("id") id: Int): UserResponse<User> {
@@ -42,5 +45,12 @@ class UserController(private val userService: UserService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteUserById(@PathVariable id: Int) {
         userService.deleteUserById(id)
+    }
+
+    @GetMapping("/employees")
+    fun getEmployees(): UserResponse<EmployeeResponse> {
+        var employees =
+            restTemplate.getForObject("https://dummy.restapiexample.com/api/v1/employees", EmployeeResponse::class.java)
+        return UserResponse.success(payload = employees)
     }
 }
